@@ -15,10 +15,9 @@ th {background: #222; color: #fff}
 	<theader>
 	<th>Member</th>
 	<th>Membertypes</th>
-	<th>Save</th>
 	</theader>
-	<?php foreach($members as $member): ?>
 	<?= form_open('members/update_member_membertypes'); ?>
+	<?php foreach($members as $member): ?>
 	<?= form_hidden('member_id', $member['member_id']); ?>
 	<tr>
 		<td><?= $member['screen_name']; ?></td>
@@ -26,12 +25,13 @@ th {background: #222; color: #fff}
 			<?= $member['membertype_checkbox']; ?>
 			<? //list_membertypes($member['membertypes']); ?>
 		</td>
-		<td>
-			<?= form_submit('submit', 'Update'); ?>
-		</td>
 	</tr>		
-	<?= form_close(); ?>
 	<?php endforeach; ?>
+	<tfooter>
+		<td></td>
+		<td><?= form_submit('submit', 'Update'); ?></td>
+	</tfooter>
+	<?= form_close(); ?>	
 </table>
 
 <h2>List of member types</h2>

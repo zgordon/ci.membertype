@@ -23,9 +23,17 @@ class Members extends Controller {
 	
 	function update_member_membertypes()
 	{
-		$member_id = $this->input->post('member_id', TRUE);
-		$membertypes = $this->input->post('membertypes', TRUE);		
-		$this->Members_model->update_member_member_types($member_id, $membertypes);
+	 	//Get member ids
+		$member_ids = $this->Members_model->get_member_ids();
+				
+		//For each member ids get input posts
+		foreach($member_ids as $member_id)
+		{
+			//Get values for membertypes based on member id
+			$input_name = $member_id . '_membertypes';
+			$membertypes = $this->input->post($input_name, TRUE);		
+			$this->Members_model->update_member_member_types($member_id, $membertypes);
+		}
 		redirect('/members/', 'refresh');
 	}
 	

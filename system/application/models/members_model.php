@@ -12,6 +12,18 @@ class Members_model extends Model {
 		var_dump($array);
 		echo '</pre>';
 	}
+	
+	function get_member_ids()
+	{
+		$this->db->select('member_id'); 
+		$query = $this->db->get('exp_members');
+		foreach ($query->result() as $row)
+		{
+		    $member_ids[] = $row->member_id;
+		}
+		return $member_ids;				
+	} 
+	
 	function get_members() 
 	{
 		$query = $this->db->get('exp_members');
@@ -19,7 +31,7 @@ class Members_model extends Model {
 		{
 			$member_info = $this->get_member_info_by_id($row->member_id);
 			$membertypes_ids = $this->get_membertypes_by_member_id($row->member_id);
-			$member_info['membertype_checkbox'] = $this->get_member_membertype_checkboxes($membertypes_ids);
+			$member_info['membertype_checkbox'] = $this->get_member_membertype_checkboxes($membertypes_ids, $row->member_id);
 /*
 			foreach($membertypes_ids as $membertypes_id)
 			{
@@ -93,7 +105,7 @@ class Members_model extends Model {
 		return $checkboxes;
 	}
 
-	function get_member_membertype_checkboxes($membertype_ids) 
+	function get_member_membertype_checkboxes($membertype_ids, $member_id) 
 	{
 		$checkboxes = '<ul>';
 		$checkboxes .= "\n";		
@@ -104,7 +116,7 @@ class Members_model extends Model {
 			$checkboxes .= "\n";
 			$checkboxes .= '<input type="checkbox" ';
 			$checkboxes .= 'id="membertype_id_' . $membertype['membertype_id'] . '" ';			
-			$checkboxes .= 'name="membertypes[]" ';
+			$checkboxes .= 'name="'. $member_id . '_membertypes[]" ';
 			$checkboxes .= 'value="' . $membertype['membertype_id'] . '" ';			
 			if($membertype_ids != null)
 			{
